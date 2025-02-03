@@ -1,0 +1,76 @@
+body {
+  background-color: rgb(73, 227, 227);
+  font-family: "Poppins", serif;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
+.home-and-tasks {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+}
+
+.home-and-tasks a {
+  font-size: 1rem;
+  color: black;
+  text-decoration: none;
+}
+
+.home-and-tasks a:hover {
+  color: rgb(82, 82, 82);
+  text-decoration: underline;
+  transition: 0.3s;
+}
+
+.well-done {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.well-done img {
+  width: 250px;
+}
+
+.title {
+  padding-left: 30%;
+  margin: 2rem;
+}
+
+.completed-tasks-list {
+  border-radius: 10px;
+  padding: 2rem 3rem;
+  background-color: rgb(143, 248, 252);
+  max-width: 45%;
+  margin: 0 auto;
+}
+.completed-tasks-list li {
+  padding: 1rem 0rem;
+  list-style-type: none;
+}
+
+#check-square {
+  margin-right: 0.6rem;
+}
+
+.clear-history-container {
+  margin: 2rem 0rem 8rem 0rem;
+  display: flex;
+  justify-content: center;
+}
+.clear-history {
+  background-color: #42a0a4;
+  border-radius: 10px;
+  width: 200px;
+  border: none;
+  padding: 1rem;
+  margin-top: 2rem;
+  color: #ffffff;
+}
+
+.clear-history:hover {
+  opacity: 0.8;
+  transition: 0.3s ease-in-out;
+}

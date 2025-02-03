@@ -1,0 +1,58 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: rgb(73, 227, 227);
+  font-family: "Poppins", serif;
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 60%;
+  margin: 0 auto;
+}
+
+.sticker-container {
+  margin: 6rem 0 3rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.home-sticker {
+  width: 300px;
+}
+
+h2 {
+  margin-bottom: 1.5rem;
+}
+
+h2,
+p {
+  text-align: center;
+}
+
+.get-started {
+  background-color: #42a0a4;
+  width: 50%;
+  border-radius: 10px;
+  border: none;
+  padding: 1rem;
+  margin-top: 2rem;
+  color: #ffffff;
+}
+
+.get-started:hover {
+  opacity: 0.8;
+  transition: 0.3s ease-in-out;
+}
+
+.get-started-link {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 1rem;
+}
