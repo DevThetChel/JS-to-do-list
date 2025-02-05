@@ -3,6 +3,7 @@ body {
   font-family: "Poppins", serif;
   max-width: 90%;
   margin: 0 auto;
+  padding-bottom: 6rem;
 }
 
 .to-home {
@@ -23,13 +24,15 @@ body {
   align-items: center;
 }
 
-.completed-tasks {
+.completed-tasks,
+.todays-tasks {
   background-color: transparent;
   border: none;
   padding: 1rem 1.5rem 0rem 0rem;
 }
 
-.completed-tasks a {
+.completed-tasks a,
+.todays-tasks a {
   font-family: "Poppins", serif;
   /* font-weight: bold; */
   font-size: 1rem;
@@ -37,7 +40,8 @@ body {
   text-decoration: none;
 }
 
-.completed-tasks:hover a {
+.completed-tasks:hover a,
+.todays-tasks:hover a {
   color: rgb(82, 82, 82);
   text-decoration: underline;
   transition: 0.3s;
@@ -47,6 +51,18 @@ body {
   text-align: center;
   padding: 2rem 0rem 1rem 0rem;
   font-size: 1.5rem;
+}
+
+.show-all-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 2rem;
+}
+
+.show-all {
+  padding: 1rem;
 }
 
 .tasks-sticker-container {
@@ -129,6 +145,10 @@ form button:hover {
 @media screen and (max-width: 500px) {
   form {
     width: 90%;
+  }
+
+  form input {
+    min-width: 100px;
   }
 
   .date-input {

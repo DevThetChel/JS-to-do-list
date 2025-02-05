@@ -4,46 +4,17 @@ const addTaskButton = document.querySelector(".js-add-task");
 
 const formElement = document.querySelector(".form");
 
+// getting toDoList
+
+const toDoList = JSON.parse(localStorage.getItem("list")) || [];
+
+// Preventing Default for the form.
+
 formElement.addEventListener("submit", (event) => {
   event.preventDefault();
 });
 
-const toDoList = JSON.parse(localStorage.getItem("list")) || [];
-
 showToDo();
-
-export function addToList() {
-  const inputValue = document.querySelector(".add-task").value;
-  const dateValue = document.querySelector(".date-input").value;
-
-  if (!inputValue) {
-    alert("Please add a task.");
-  } else if (!dateValue) {
-    alert("Please choose a date");
-  } else {
-    toDoList.push({
-      name: inputValue,
-      date: dateValue,
-    });
-
-    console.log(toDoList);
-    document.querySelector(".add-task").value = "";
-  }
-  showToDo();
-
-  localStorage.setItem("list", JSON.stringify(toDoList));
-}
-
-addTaskButton.addEventListener("click", () => {
-  addToList();
-});
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    addToList();
-  }
-});
 
 function showToDo() {
   let listHTML = "";
@@ -85,6 +56,43 @@ function showToDo() {
     });
   }
 }
+
+// Managing add to list function
+
+export function addToList() {
+  const inputValue = document.querySelector(".add-task").value;
+  const dateValue = document.querySelector(".date-input").value;
+
+  if (!inputValue) {
+    alert("Please add a task.");
+  } else if (!dateValue) {
+    alert("Please choose a date");
+  } else {
+    toDoList.push({
+      name: inputValue,
+      date: dateValue,
+    });
+
+    console.log(toDoList);
+    document.querySelector(".add-task").value = "";
+  }
+  showToDo();
+
+  localStorage.setItem("list", JSON.stringify(toDoList));
+}
+
+addTaskButton.addEventListener("click", () => {
+  addToList();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    addToList();
+  }
+});
+
+// Showing trash and check box icon when each item is hovered
 
 displayIconsToUpdate();
 

@@ -3,15 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tasks</title>
+    <title>Today's</title>
+    <link rel="stylesheet" href="../css/searchTasks.css" />
     <link rel="stylesheet" href="../css/tasks.css" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
       rel="stylesheet"
     />
-
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -21,41 +22,34 @@
     />
   </head>
   <body>
-    <div class="home-and-completed">
-      <a class="to-home" href="../index.html"
+    <div class="pages">
+      <a class="to-home" href="tasks.html"
         ><i class="fa-solid fa-arrow-left"></i
       ></a>
-      <div class="tasks-options">
-        <button class="todays-tasks">
-          <a href="./searchTasks.html">Explore</a>
-        </button>
-        <button class="completed-tasks">
-          <a href="./completedTasks.html">Completed Tasks</a>
-        </button>
-      </div>
     </div>
-    <figure class="tasks-sticker-container">
+
+    <figure class="search-sticker-container">
       <img
-        class="tasks-sticker"
-        src="../assets/illustrative stickers/tasks.svg"
+        class="search-sticker"
+        src="../assets/illustrative stickers/search.svg"
         alt=""
       />
     </figure>
 
-    <h3 class="title">Goals to crush</h3>
-    <!-- <div class="show-all-container">
-      <button class="show-all">Show all tasks</button>
-    </div> -->
-    <form class="form" action="">
+    <h2 class="search-title">To-dos</h2>
+
+    <form class="form search" action="">
       <div class="input-area">
-        <input class="add-task" type="text" placeholder="Add Task" />
+        <input class="search-task" type="text" placeholder="Search Tasks" />
         <input class="date-input" type="date" />
-        <button type="submit" class="js-add-task">➕</button>
+        <button type="submit" class="js-search-task">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
       </div>
 
-      <ul class="tasks-list"></ul>
+      <ul class="tasks-by-day-list"></ul>
     </form>
 
-    <script type="module" src="../scripts/script.js"></script>
+    <script type="module" src="../scripts/search.js"></script>
   </body>
 </html>
