@@ -1,4 +1,5 @@
 import { completedTasks } from "./complete.js";
+import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
 const addTaskButton = document.querySelector(".js-add-task");
 
@@ -13,6 +14,35 @@ const toDoList = JSON.parse(localStorage.getItem("list")) || [];
 formElement.addEventListener("submit", (event) => {
   event.preventDefault();
 });
+
+const today = new dayjs().format("YYYY-MM-DD");
+const lastRunDate = localStorage.getItem("lastRunDate");
+
+if (lastRunDate !== today) {
+  generateDailyTasks();
+} else {
+  console.log("already run");
+}
+
+function generateDailyTasks() {
+  const dailyTasks = [
+    "React",
+    "JS",
+    "Work",
+    "Workout",
+    "Chinese",
+    "Guitar",
+    "Book",
+    "Teach",
+  ];
+
+  dailyTasks.map((task) => toDoList.push({ name: task, date: today }));
+
+  localStorage.setItem("list", JSON.stringify(toDoList));
+  localStorage.setItem("lastRunDate", today);
+
+  console.log(toDoList);
+}
 
 showToDo();
 
@@ -42,7 +72,6 @@ function showToDo() {
 
     document.querySelector(".tasks-list").innerHTML = listHTML;
     displayIconsToUpdate();
-
     document.querySelectorAll("#trash").forEach((trash, index) => {
       trash.addEventListener("click", () => {
         deleteTask(index);
@@ -96,7 +125,7 @@ document.addEventListener("keydown", (event) => {
 
 displayIconsToUpdate();
 
-function displayIconsToUpdate() {
+export function displayIconsToUpdate() {
   const taskList = document.querySelectorAll(".task-list");
 
   taskList.forEach((task, index) => {
@@ -118,7 +147,7 @@ function displayIconsToUpdate() {
   });
 }
 
-function deleteTask(id) {
+export function deleteTask(id) {
   toDoList.splice(id, 1);
   localStorage.setItem("list", JSON.stringify(toDoList));
   showToDo();
@@ -126,7 +155,7 @@ function deleteTask(id) {
 
 // let matchingItem;
 
-function markCompleted(id) {
+export function markCompleted(id) {
   const task = toDoList[id].name;
   console.log(`${id} completed, ${task}`);
   console.log(toDoList[id]);

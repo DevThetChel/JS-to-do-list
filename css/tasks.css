@@ -1,7 +1,7 @@
 body {
   background-color: rgb(73, 227, 227);
   font-family: "Poppins", serif;
-  max-width: 90%;
+  max-width: 80%;
   margin: 0 auto;
   padding-bottom: 6rem;
 }
@@ -138,13 +138,16 @@ form button:hover {
 
 @media screen and (min-width: 700px) {
   form {
-    width: 50%;
+    width: 55%;
   }
 }
 
 @media screen and (max-width: 500px) {
+  body {
+    max-width: 90%;
+  }
   form {
-    width: 90%;
+    width: 85%;
   }
 
   form input {

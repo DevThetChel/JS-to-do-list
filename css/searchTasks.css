@@ -1,12 +1,39 @@
 body {
   background-color: rgb(73, 227, 227);
   font-family: "Poppins", serif;
-  max-width: 90%;
+  max-width: 80%;
   margin: 0 auto;
 }
 
 .pages {
-  margin-top: 3rem;
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.home-and-completed {
+  display: flex;
+}
+
+.home-and-completed a {
+  font-size: 1rem;
+  color: black;
+  text-decoration: none;
+}
+
+.home-and-completed a:hover {
+  color: rgb(82, 82, 82);
+  text-decoration: underline;
+  transition: 0.3s;
+}
+
+.completed-task {
+  margin-right: 2rem;
+}
+
+.home {
+  margin-right: 3rem;
 }
 
 .search-sticker-container {
@@ -31,8 +58,4 @@ body {
 .tasks-by-day-list {
   padding: 0 0 6rem 0;
   margin: 2rem 0rem 2rem 1rem;
-}
-
-.tasks-by-day-list li {
-  padding: 0.5rem;
 }
