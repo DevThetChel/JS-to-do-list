@@ -1,13 +1,15 @@
 import { completedTasks } from "./complete.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
+import { nanoid } from "https://cdn.jsdelivr.net/npm/nanoid/nanoid.js";
+
 const addTaskButton = document.querySelector(".js-add-task");
 
 const formElement = document.querySelector(".form");
 
 // getting toDoList
 
-const toDoList = JSON.parse(localStorage.getItem("list")) || [];
+let toDoList = JSON.parse(localStorage.getItem("list")) || [];
 
 // Preventing Default for the form.
 
@@ -36,7 +38,13 @@ function generateDailyTasks() {
     "Teach",
   ];
 
-  dailyTasks.map((task) => toDoList.push({ name: task, date: today }));
+  dailyTasks.map((task) =>
+    toDoList.push({
+      id: nanoid(),
+      name: task,
+      date: today,
+    })
+  );
 
   localStorage.setItem("list", JSON.stringify(toDoList));
   localStorage.setItem("lastRunDate", today);
@@ -52,18 +60,18 @@ function showToDo() {
     document.querySelector(".tasks-list").innerHTML =
       "No task for now. Gonna take a rest today?";
   } else {
-    toDoList.forEach((task, index) => {
+    toDoList.forEach((task) => {
       listHTML += ` 
 
-        <li data-id="${index}" class="task-list">
+        <li data-id="${task.id}" class="task-list">
           <div class="task-detail">
           <p>${task.name} (${task.date}) 
           </p>
           <div class="updated">
-          <button class="completed">
+          <button data-name=${task.name} data-id="${task.id}" class="completed">
           <i class="fa-solid fa-square-check"></i>
          </button>
-          <button class="trash-button">
+          <button data-id="${task.id}" class="trash-button">
           <i id="trash" class="fa-sharp fa-solid fa-trash"></i>
           </button></div>
           </div>
@@ -72,15 +80,21 @@ function showToDo() {
 
     document.querySelector(".tasks-list").innerHTML = listHTML;
     displayIconsToUpdate();
-    document.querySelectorAll("#trash").forEach((trash, index) => {
+    document.querySelectorAll(".trash-button").forEach((trash) => {
+      const id = trash.dataset.id;
+
       trash.addEventListener("click", () => {
-        deleteTask(index);
+        deleteTask(id);
       });
     });
 
-    document.querySelectorAll(".completed").forEach((tick, index) => {
+    document.querySelectorAll(".completed").forEach((tick) => {
+      // console.log(tick.dataset.id);
       tick.addEventListener("click", () => {
-        markCompleted(index);
+        const id = tick.dataset.id;
+        const name = tick.dataset.name;
+        console.log(name);
+        markCompleted(id);
       });
     });
   }
@@ -98,6 +112,7 @@ export function addToList() {
     alert("Please choose a date");
   } else {
     toDoList.push({
+      id: nanoid(),
       name: inputValue,
       date: dateValue,
     });
@@ -135,43 +150,41 @@ export function displayIconsToUpdate() {
     const updateElement = task.querySelector(".updated");
 
     task.addEventListener("mouseover", () => {
-      if (index === taskId) {
-        updateElement.style.display = "block";
-      }
+      updateElement.style.display = "block";
     });
     task.addEventListener("mouseout", () => {
-      if (index === taskId) {
-        updateElement.style.display = "none";
-      }
+      updateElement.style.display = "none";
     });
   });
 }
 
 export function deleteTask(id) {
-  toDoList.splice(id, 1);
+  console.log(`${id} deleted`);
+
+  const newList = toDoList.filter((task) => task.id !== id);
+
+  toDoList = newList;
+
   localStorage.setItem("list", JSON.stringify(toDoList));
+  console.log(toDoList);
+
   showToDo();
 }
 
 // let matchingItem;
 
 export function markCompleted(id) {
-  const task = toDoList[id].name;
-  console.log(`${id} completed, ${task}`);
-  console.log(toDoList[id]);
-
-  // completedTasks.forEach((task) => {
-  //   if (task.id === id) {
-  //     matchingItem = task;
-  //   }
-  // });
+  const matchedTask = toDoList.filter((task) => task.id === id);
 
   completedTasks.push({
-    id: id,
-    name: toDoList[id].name,
-    date: toDoList[id].date,
+    id: matchedTask[0].id,
+    name: matchedTask[0].name,
+    date: matchedTask[0].date,
   });
-  toDoList.splice(id, 1);
+
+  const newList = toDoList.filter((task) => task.id !== id);
+
+  toDoList = newList;
 
   localStorage.setItem("list", JSON.stringify(toDoList));
   localStorage.setItem("completedTasks", JSON.stringify(completedTasks));

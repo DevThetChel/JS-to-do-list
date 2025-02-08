@@ -2,7 +2,7 @@ import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
 // getting today's date and updating the title.
 
-const toDoList = JSON.parse(localStorage.getItem("list")) || [];
+let toDoList = JSON.parse(localStorage.getItem("list")) || [];
 
 const completedTasks = JSON.parse(localStorage.getItem("completedTasks")) || [];
 
@@ -32,22 +32,25 @@ formElement.addEventListener("submit", (event) => {
 });
 
 function showTasks(day, name) {
-  if (day && !name) {
+  if (!day && !name) {
+    tasksByDayHTML += "Please insert a name or a date to search.";
+    titleElement.innerHTML = "To-dos";
+  } else if (day && !name) {
     matchingTasks = toDoList.filter((list) => list.date === day);
 
     tasksByDayHTML += matchingTasks.length
       ? matchingTasks
           .map(
-            (task, index) => `
-              <li data-id="${index}" class="task-by-day">
+            (task) => `
+              <li data-id="${task.id}" class="task-by-day">
               <div class="task-detail">
-              <p>${task.name} 
+              <p>${task.name}
               </p>
               <div class="updated">
-              <button class="completed">
+              <button data-id="${task.id}" class="completed">
               <i class="fa-solid fa-square-check"></i>
              </button>
-              <button class="trash-button">
+              <button data-id="${task.id}" class="trash-button" >
               <i id="trash" class="fa-sharp fa-solid fa-trash"></i>
               </button></div>
               </div>
@@ -61,20 +64,18 @@ function showTasks(day, name) {
       ? matchingTasks
           .map(
             (task) => `
-            <li class="task-by-day">${task.name}  (${task.date})</li>
-              <li data-id="${index}" class="task-by-day">
+            <li data-id="${task.id}" class="task-by-day">
               <div class="task-detail">
-              <p>${task.name} 
-              </p>
+              <p>${task.name}  (${task.date})</p>
               <div class="updated">
-              <button class="completed">
+              <button data-id="${task.id}" class="completed" >
               <i class="fa-solid fa-square-check"></i>
              </button>
-              <button class="trash-button">
+              <button data-id="${task.id}" class="trash-button" >
               <i id="trash" class="fa-sharp fa-solid fa-trash"></i>
               </button></div>
               </div>
-            </li>            
+            </li>
             `
           )
           .join("")
@@ -89,20 +90,20 @@ function showTasks(day, name) {
       ? matchingTasks
           .map(
             (task) => `
-            <li class="task-by-day">${task.name}  (${task.date})</li>
-              <li data-id="${index}" class="task-by-day">
+            <li data-id="${task.id}" class="task-by-day">
               <div class="task-detail">
-              <p>${task.name} 
-              </p>
+              <p>${task.name}  (${task.date})</p>
               <div class="updated">
-              <button class="completed">
+              <button data-id="${task.id}" class="completed"
+              >
               <i class="fa-solid fa-square-check"></i>
              </button>
-              <button class="trash-button">
+              <button data-id="${task.id}" class="trash-button"
+             >
               <i id="trash" class="fa-sharp fa-solid fa-trash"></i>
               </button></div>
               </div>
-            </li>           
+            </li>
             `
           )
           .join("")
@@ -110,20 +111,29 @@ function showTasks(day, name) {
   }
 
   const tasksByDayElement = document.querySelector(".tasks-by-day-list");
+  tasksByDayElement.innerHTML = "";
+
   tasksByDayElement.innerHTML = tasksByDayHTML;
 
   displayIconsToUpdate();
 
-  document.querySelectorAll("#trash").forEach((trash, index) => {
+  tasksByDayElement.querySelectorAll(".trash-button").forEach((trash) => {
+    const id = trash.dataset.id;
+
     trash.addEventListener("click", (event) => {
       event.preventDefault();
-      deleteTask(index);
+      console.log(id);
+      deleteTask(id);
     });
   });
 
-  document.querySelectorAll(".completed").forEach((tick, index) => {
-    tick.addEventListener("click", () => {
-      markCompleted(index);
+  tasksByDayElement.querySelectorAll(".completed").forEach((tick) => {
+    const id = tick.dataset.id;
+
+    tick.addEventListener("click", (event) => {
+      event.preventDefault();
+      markCompleted(id);
+      console.log(id);
     });
   });
 }
@@ -131,7 +141,6 @@ function showTasks(day, name) {
 showTasks(day);
 
 function searchForTasks() {
-  console.log("Searching");
   const name = document.querySelector(".search-task").value;
   const date = document.querySelector(".date-input").value;
   day = date;
@@ -153,58 +162,54 @@ searchButton.addEventListener("click", () => {
 
 displayIconsToUpdate();
 
-export function displayIconsToUpdate() {
+function displayIconsToUpdate() {
   const taskList = document.querySelectorAll(".task-by-day");
 
-  // console.log(taskList);
-
-  taskList.forEach((task, index) => {
-    const taskId = Number(task.dataset.id);
-    // console.log(taskId);
-
+  taskList.forEach((task) => {
     const updateElement = task.querySelector(".updated");
 
     task.addEventListener("mouseover", () => {
-      if (index === taskId) {
-        updateElement.style.display = "block";
-      }
+      updateElement.style.display = "block";
     });
     task.addEventListener("mouseout", () => {
-      if (index === taskId) {
-        updateElement.style.display = "none";
-      }
+      updateElement.style.display = "none";
     });
   });
-
-  // console.log("run");
 }
 
-export function deleteTask(id) {
-  console.log("deleted");
-  toDoList.splice(id, 1);
+// console.log(toDoList);
+
+function deleteTask(id) {
+  console.log(`${id} deleted`);
+  const newList = toDoList.filter((task) => task.id !== id);
+
+  toDoList = newList;
+
   localStorage.setItem("list", JSON.stringify(toDoList));
-  tasksByDayHTML = ""; // Clear the current HTML before re-rendering
+  tasksByDayHTML = "";
   showTasks(day);
 }
 
 // let matchingItem;
 
-export function markCompleted(id) {
-  console.log("marked");
+function markCompleted(id) {
+  console.log(toDoList);
 
-  const task = toDoList[id].name;
-  console.log(`${id} completed, ${task}`);
-  console.log(toDoList[id]);
+  const matchedTask = toDoList.filter((task) => task.id === id);
 
   completedTasks.push({
-    id: id,
-    name: toDoList[id].name,
-    date: toDoList[id].date,
+    id: matchedTask[0].id,
+    name: matchedTask[0].name,
+    date: matchedTask[0].date,
   });
-  toDoList.splice(id, 1);
+
+  const newList = toDoList.filter((task) => task.id !== id);
+
+  toDoList = newList;
 
   localStorage.setItem("list", JSON.stringify(toDoList));
   localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
   tasksByDayHTML = ""; // Clear the current HTML before re-rendering
+
   showTasks(day);
 }
